@@ -19,6 +19,10 @@ namespace JmesJemsSite.Models
             options.Password.RequiredLength = 8;
             options.Password.RequireDigit = false;
             options.Password.RequireNonAlphanumeric = false;
+
+            // Set password lockout time and failed attempts
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+            options.Lockout.MaxFailedAccessAttempts = 6;
         }
     }
 }
