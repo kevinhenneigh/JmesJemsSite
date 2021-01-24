@@ -1,16 +1,18 @@
-﻿using DynamicVML;
+﻿using JmesJemsSite.Models;
+using DynamicVML;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JmesJemsSite.Models
+namespace JmesJemsSite.ViewModels
 {
     public enum Type
     {
         Necklace, Bracelete
     }
-    public class Jewelry
+    public class JewelryViewModel
     {
         public int JewelryId { get; set; }
 
@@ -20,10 +22,11 @@ namespace JmesJemsSite.Models
 
         public string Size { get; set; }
 
-        public virtual List<Material> Materials { get; set; }
+        public DynamicList <Material> Materials { get; set; }
 
         public double Price { get; set; }
-        public string Image { get; set; }
+        public IFormFile JewelryImage { get; set; }
 
     }
+    
 }
