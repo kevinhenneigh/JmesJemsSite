@@ -5,11 +5,15 @@ using System.Threading.Tasks;
 
 namespace JmesJemsSite.Models
 {
+    public enum Type
+    {
+        Necklace, Bracelete
+    }
     public class Jewelry
     {
         public int JewelryId { get; set; }
 
-        public string Type { get; set; }
+        public Type Type { get; set; }
 
         public string Color { get; set; }
 
