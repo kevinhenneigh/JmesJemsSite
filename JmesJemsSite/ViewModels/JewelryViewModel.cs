@@ -1,4 +1,6 @@
 ﻿using JmesJemsSite.Models;
+using DynamicVML;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,7 @@ namespace JmesJemsSite.ViewModels
     {
         Necklace, Bracelete
     }
-    public class Jewelry
+    public class JewelryViewModel
     {
         public int JewelryId { get; set; }
 
@@ -20,9 +22,10 @@ namespace JmesJemsSite.ViewModels
 
         public string Size { get; set; }
 
-        public List<Material> Materials { get; set; }
+        public DynamicList <Material> Materials { get; set; }
 
         public double Price { get; set; }
+        public IFormFile JewelryImage { get; set; }
 
     }
     
