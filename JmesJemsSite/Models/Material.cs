@@ -10,5 +10,6 @@ namespace JmesJemsSite.Models
         public int MaterialId { get; set; }
 
         public string Title { get; set; }
+        public int JewelryId { get; set; }
     }
 }
