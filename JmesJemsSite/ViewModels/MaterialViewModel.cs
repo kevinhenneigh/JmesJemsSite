@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JmesJemsSite.Models
+namespace JmesJemsSite.ViewModels
 {
-    public class Material
+    public class MaterialViewModel
     {
         public int MaterialId { get; set; }
 
