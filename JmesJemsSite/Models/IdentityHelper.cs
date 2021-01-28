@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,10 @@ namespace JmesJemsSite.Models
 {
     public static class IdentityHelper
     {
+        // Role names
+        public const string Administrator = "Administrator";
+        public const string Customer = "Customer";
+
         public static void SetIdentityOptions(IdentityOptions options)
         {
             options.SignIn.RequireConfirmedEmail = false;
@@ -23,6 +28,23 @@ namespace JmesJemsSite.Models
             // Set password lockout time and failed attempts
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
             options.Lockout.MaxFailedAccessAttempts = 6;
+        }
+
+        public static async Task CreateRoles(IServiceProvider provider, 
+            params string[] roles)
+        {
+            RoleManager<IdentityRole> roleManager = 
+                provider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            // Create roles if they do not exist
+            foreach (string role in roles)
+            {
+                bool doesRoleExist = await roleManager.RoleExistsAsync(role);
+                if (!doesRoleExist)
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
         }
     }
 }

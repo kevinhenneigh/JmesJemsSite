@@ -33,6 +33,7 @@ namespace JmesJemsSite
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<IdentityUser>(IdentityHelper.SetIdentityOptions)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -67,6 +68,14 @@ namespace JmesJemsSite
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            // Create roles here
+            IServiceScope serviceProvider = app.ApplicationServices
+                                               .GetRequiredService<IServiceProvider>()
+                                               .CreateScope();
+            IdentityHelper.CreateRoles(serviceProvider.ServiceProvider
+                , IdentityHelper.Administrator
+                , IdentityHelper.Customer).Wait();
         }
     }
 }
