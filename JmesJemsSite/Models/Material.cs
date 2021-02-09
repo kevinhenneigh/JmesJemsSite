@@ -8,8 +8,7 @@ namespace JmesJemsSite.Models
     public class Material
     {
         public int MaterialId { get; set; }
-
         public string Title { get; set; }
-        public int JewelryId { get; set; }
+        public string Category { get; set; }
     }
 }
