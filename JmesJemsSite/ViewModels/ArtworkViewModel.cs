@@ -1,4 +1,5 @@
 ﻿using DynamicVML;
+using JmesJemsSite.ViewModels;
 using JmesJemsSite.Models;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,6 @@ namespace JmesJemsSite.ViewModels
         [Display(Name = "Price")]
         public double Price { get; set; }
         [Display(Name = "Materials used")]
-        public virtual DynamicList<MaterialViewModel> Materials { get; set; } = new DynamicList<MaterialViewModel>();
+        public virtual DynamicList<MaterialViewModel> ArtMaterials { get; set; } = new DynamicList<MaterialViewModel>();
     }
 }

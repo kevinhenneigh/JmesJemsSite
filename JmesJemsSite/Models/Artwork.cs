@@ -9,6 +9,7 @@ namespace JmesJemsSite.Models
 {
     public class Artwork
     {
+        [Key]
         public int ArtId { get; set; }
         [Display(Name = "Name of artwork")]
         public string Title { get; set; }
@@ -21,6 +22,6 @@ namespace JmesJemsSite.Models
         [Display(Name = "Price")]
         public double Price { get; set; }
         [Display(Name = "Materials used")]
-        public virtual List<Material> Materials { get; set; } = new List<Material>();
+        public virtual List<Material> ArtMaterials { get; set; } = new List<Material>();
     }
 }
