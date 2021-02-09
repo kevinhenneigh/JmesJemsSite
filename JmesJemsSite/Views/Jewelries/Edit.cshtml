@@ -1,4 +1,5 @@
-﻿@model JmesJemsSite.Models.Jewelry
+﻿@using DynamicVML.Extensions
+@model JmesJemsSite.ViewModels.JewelryViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -38,6 +39,7 @@
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
+            @Html.ListEditorFor(x => x.Materials, Url.Action("AddMaterial"), "Add new material")
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -46,6 +48,13 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Jewelry">Back to List</a>
 </div>
 
+@section Scripts {
+
+    <!-- Load JS code for the Dynamic ViewModel Lists above -->
+    <script src="~/lib/dynamic-viewmodel-lists/dvml.js"></script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
