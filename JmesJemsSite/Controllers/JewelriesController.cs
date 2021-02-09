@@ -46,7 +46,7 @@ namespace JmesJemsSite.Controllers
                         new Material{ Title = "Rhinestone", Category = "Plastic"},
                         new Material{ Title = "Silver", Category = "Metal"} }
                 });
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
             }
         }
         public IActionResult AddMaterial(AddNewDynamicItem parameters)
@@ -109,9 +109,9 @@ namespace JmesJemsSite.Controllers
             };
         }
         // GET: Jewelries
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Jewelry()
         {
-            return View(await _context.Jewelry.ToListAsync());
+           return View(await _context.Jewelry.ToListAsync());
         }
 
         // GET: Jewelries/Details/5
@@ -150,7 +150,7 @@ namespace JmesJemsSite.Controllers
             {
                 _context.Add(ViewModelToModel(jewelry));
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Jewelry));
             }
             return View(jewelry);
         }
@@ -203,7 +203,7 @@ namespace JmesJemsSite.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Jewelry));
             }
             return View(jewelry);
         }
@@ -232,10 +232,12 @@ namespace JmesJemsSite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var jewelry = await _context.Jewelry.FindAsync(id);
+            var jewelry = await _context.Jewelry
+                .Include(x => x.Materials)
+                .FirstOrDefaultAsync(m => m.JewelryId == id);
             _context.Jewelry.Remove(jewelry);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Jewelry));
         }
 
         private bool JewelryExists(int id)
