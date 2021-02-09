@@ -11,6 +11,8 @@ namespace JmesJemsSite.Models
     public class Jewelry
     {
         public int JewelryId { get; set; }
+        [Display(Name = "Name of jewelry")]
+        public string Title { get; set; }
         [Display(Name = "Type of jewelry")]
         public string Type { get; set; }
         [Display(Name = "Jewelry color")]
