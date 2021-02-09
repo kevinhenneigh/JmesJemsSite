@@ -18,6 +18,8 @@ namespace JmesJemsSite.Models
         public double Length { get; set; }
         [Display(Name = "Width")]
         public double Width { get; set; }
+        [Display(Name = "Price")]
+        public double Price { get; set; }
         [Display(Name = "Materials used")]
         public virtual List<Material> Materials { get; set; } = new List<Material>();
     }

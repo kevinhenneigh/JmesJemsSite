@@ -19,6 +19,8 @@ namespace JmesJemsSite.ViewModels
         public double Length { get; set; }
         [Display(Name = "Width")]
         public double Width { get; set; }
+        [Display(Name = "Price")]
+        public double Price { get; set; }
         [Display(Name = "Materials used")]
         public virtual DynamicList<MaterialViewModel> Materials { get; set; } = new DynamicList<MaterialViewModel>();
     }
