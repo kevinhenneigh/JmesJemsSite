@@ -1,4 +1,4 @@
-﻿@model JmesJemsSite.Models.Artwork
+﻿@model JmesJemsSite.ViewModels.ArtworkViewModel
 @using DynamicVML.Extensions
 
 @{
@@ -39,6 +39,7 @@
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
+            @Html.ListEditorFor(x => x.ArtMaterials, Url.Action("AddMaterial"), "Add new material")
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
