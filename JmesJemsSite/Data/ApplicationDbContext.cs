@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using JmesJemsSite.Models;
 
 namespace JmesJemsSite.Data
 {
@@ -12,5 +13,6 @@ namespace JmesJemsSite.Data
             : base(options)
         {
         }
+        public DbSet<Jewelry> Jewelry { get; set; }
     }
 }
