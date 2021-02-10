@@ -30,7 +30,7 @@ namespace JmesJemsSite.Controllers
                     Length = 12.5,
                     Width = 12.5,
                     Price = 25.99,
-                    Materials = {
+                    ArtMaterials = {
                         new Material { Title = "Canvas", Category = "Plant-Based" },
                         new Material{ Title = "Oil-based", Category = "Paint"} }
                 });
@@ -41,7 +41,7 @@ namespace JmesJemsSite.Controllers
                     Length = 24.00,
                     Width = 15.00,
                     Price = 50.99,
-                    Materials = {
+                    ArtMaterials = {
                         new Material { Title = "Canvas", Category = "Plant-Based" },
                         new Material{ Title = "Pastels", Category = "Soft"}}
                 });
@@ -79,7 +79,7 @@ namespace JmesJemsSite.Controllers
                 Length = model.Length,
                 Width = model.Width,
                 Price = model.Price,
-                Materials = model.Materials.ToDynamicList(m => new MaterialViewModel()
+                ArtMaterials = model.ArtMaterials.ToDynamicList(m => new MaterialViewModel()
                 {
                     MaterialId = m.MaterialId,
                     Title = m.Title,
@@ -99,7 +99,7 @@ namespace JmesJemsSite.Controllers
                 Length = viewModel.Length,
                 Width = viewModel.Width,
                 Price = viewModel.Price,
-                Materials = viewModel.Materials.ToModel(m => new Material
+                ArtMaterials = viewModel.ArtMaterials.ToModel(m => new Material
                 {
                     MaterialId = m.MaterialId,
                     Title = m.Title,
@@ -123,7 +123,7 @@ namespace JmesJemsSite.Controllers
             }
 
             var artwork = await _context.Artwork
-                .Include(x => x.Materials)
+                .Include(x => x.ArtMaterials)
                 .FirstOrDefaultAsync(m => m.ArtId == id);
             if (artwork == null)
             {
@@ -164,7 +164,7 @@ namespace JmesJemsSite.Controllers
             }
 
             var artwork = await _context.Artwork
-                .Include(x => x.Materials)
+                .Include(x => x.ArtMaterials)
                 .FirstOrDefaultAsync(x => x.ArtId == id);
             if (artwork == null)
             {
@@ -217,7 +217,7 @@ namespace JmesJemsSite.Controllers
             }
 
             var artwork = await _context.Artwork
-                .Include(x => x.Materials)
+                .Include(x => x.ArtMaterials)
                 .FirstOrDefaultAsync(m => m.ArtId == id);
             if (artwork == null)
             {
@@ -233,7 +233,7 @@ namespace JmesJemsSite.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var artwork = await _context.Artwork
-                .Include(x => x.Materials)
+                .Include(x => x.ArtMaterials)
                 .FirstOrDefaultAsync(m => m.ArtId == id);
             _context.Artwork.Remove(artwork);
             await _context.SaveChangesAsync();
