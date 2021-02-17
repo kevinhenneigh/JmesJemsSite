@@ -31,8 +31,8 @@ namespace JmesJemsSite.Controllers
                     Width = 12.5,
                     Price = 25.99,
                     ArtMaterials = {
-                        new Material { Title = "Canvas", Category = "Plant-Based" },
-                        new Material{ Title = "Oil-based", Category = "Paint"} }
+                        new ArtMaterial { Title = "Canvas", Category = "Plant-Based" },
+                        new ArtMaterial{ Title = "Oil-based", Category = "Paint"} }
                 });
                 _context.Artwork.Add(new Artwork
                 {
@@ -42,8 +42,8 @@ namespace JmesJemsSite.Controllers
                     Width = 15.00,
                     Price = 50.99,
                     ArtMaterials = {
-                        new Material { Title = "Canvas", Category = "Plant-Based" },
-                        new Material{ Title = "Pastels", Category = "Soft"}}
+                        new ArtMaterial { Title = "Canvas", Category = "Plant-Based" },
+                        new ArtMaterial{ Title = "Pastels", Category = "Soft"}}
                 });
                 _context.SaveChanges();
             }
@@ -58,7 +58,7 @@ namespace JmesJemsSite.Controllers
             // are computed automatically from the view by the library.
 
             // Now here you can create another view model for your model
-            var newMaterialViewModel = new MaterialViewModel()
+            var newArtMaterialViewModel = new ArtMaterialViewModel()
             {
                 Title = "New Material"
             };
@@ -67,7 +67,7 @@ namespace JmesJemsSite.Controllers
             // This is an extension method that creates a partial view with the needed HTML 
             // prefix for the fields in your form so the form will post correctly when it 
             // gets submitted.
-            return this.PartialView(newMaterialViewModel, parameters);
+            return this.PartialView(newArtMaterialViewModel, parameters);
         }
         private static ArtworkViewModel ModelToViewModel(Artwork model)
         {
@@ -79,9 +79,9 @@ namespace JmesJemsSite.Controllers
                 Length = model.Length,
                 Width = model.Width,
                 Price = model.Price,
-                ArtMaterials = model.ArtMaterials.ToDynamicList(m => new MaterialViewModel()
+                ArtMaterials = model.ArtMaterials.ToDynamicList(m => new ArtMaterialViewModel()
                 {
-                    MaterialId = m.MaterialId,
+                    ArtMaterialId = m.ArtMaterialId,
                     Title = m.Title,
                     Category = m.Category
                 })
@@ -99,9 +99,9 @@ namespace JmesJemsSite.Controllers
                 Length = viewModel.Length,
                 Width = viewModel.Width,
                 Price = viewModel.Price,
-                ArtMaterials = viewModel.ArtMaterials.ToModel(m => new Material
+                ArtMaterials = viewModel.ArtMaterials.ToModel(m => new ArtMaterial
                 {
-                    MaterialId = m.MaterialId,
+                    ArtMaterialId = m.ArtMaterialId,
                     Title = m.Title,
                     Category = m.Category
                 }).ToList()
