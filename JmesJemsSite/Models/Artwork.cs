@@ -22,6 +22,6 @@ namespace JmesJemsSite.Models
         [Display(Name = "Price")]
         public double Price { get; set; }
         [Display(Name = "Materials used")]
-        public virtual List<Material> ArtMaterials { get; set; } = new List<Material>();
+        public virtual List<ArtMaterial> ArtMaterials { get; set; } = new List<ArtMaterial>();
     }
 }

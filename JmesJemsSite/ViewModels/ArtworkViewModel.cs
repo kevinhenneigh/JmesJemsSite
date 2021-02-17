@@ -23,6 +23,6 @@ namespace JmesJemsSite.ViewModels
         [Display(Name = "Price")]
         public double Price { get; set; }
         [Display(Name = "Materials used")]
-        public virtual DynamicList<MaterialViewModel> ArtMaterials { get; set; } = new DynamicList<MaterialViewModel>();
+        public virtual DynamicList<ArtMaterialViewModel> ArtMaterials { get; set; } = new DynamicList<ArtMaterialViewModel>();
     }
 }
