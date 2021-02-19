@@ -73,7 +73,7 @@ namespace JmesJemsSite.Controllers
         {
             var artworkViewModel = new ArtworkViewModel()
             {
-                ArtId = model.ArtId,
+                ArtId = model.ProductId,
                 Title = model.Title,
                 Type = model.Type,
                 Length = model.Length,
@@ -93,7 +93,7 @@ namespace JmesJemsSite.Controllers
         {
             return new Artwork()
             {
-                ArtId = viewModel.ArtId,
+                ProductId = viewModel.ArtId,
                 Title = viewModel.Title,
                 Type = viewModel.Type,
                 Length = viewModel.Length,
@@ -124,7 +124,7 @@ namespace JmesJemsSite.Controllers
 
             var artwork = await _context.Artwork
                 .Include(x => x.ArtMaterials)
-                .FirstOrDefaultAsync(m => m.ArtId == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);
             if (artwork == null)
             {
                 return NotFound();
@@ -165,7 +165,7 @@ namespace JmesJemsSite.Controllers
 
             var artwork = await _context.Artwork
                 .Include(x => x.ArtMaterials)
-                .FirstOrDefaultAsync(x => x.ArtId == id);
+                .FirstOrDefaultAsync(x => x.ProductId == id);
             if (artwork == null)
             {
                 return NotFound();
@@ -218,7 +218,7 @@ namespace JmesJemsSite.Controllers
 
             var artwork = await _context.Artwork
                 .Include(x => x.ArtMaterials)
-                .FirstOrDefaultAsync(m => m.ArtId == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);
             if (artwork == null)
             {
                 return NotFound();
@@ -234,7 +234,7 @@ namespace JmesJemsSite.Controllers
         {
             var artwork = await _context.Artwork
                 .Include(x => x.ArtMaterials)
-                .FirstOrDefaultAsync(m => m.ArtId == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);
             _context.Artwork.Remove(artwork);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -242,7 +242,7 @@ namespace JmesJemsSite.Controllers
 
         private bool ArtworkExists(int id)
         {
-            return _context.Artwork.Any(e => e.ArtId == id);
+            return _context.Artwork.Any(e => e.ProductId == id);
         }
     }
 }

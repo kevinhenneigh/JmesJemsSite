@@ -74,7 +74,7 @@ namespace JmesJemsSite.Controllers
         {
             var jewelryViewModel = new JewelryViewModel()
             {
-                JewelryId = model.JewelryId,
+                JewelryId = model.ProductId,
                 Title = model.Title,
                 Type = model.Type,
                 Color = model.Color,
@@ -94,7 +94,7 @@ namespace JmesJemsSite.Controllers
         {
             return new Jewelry()
             {
-                JewelryId = viewModel.JewelryId,
+                ProductId = viewModel.JewelryId,
                 Title = viewModel.Title,
                 Type = viewModel.Type,
                 Color = viewModel.Color,
@@ -124,7 +124,7 @@ namespace JmesJemsSite.Controllers
 
             var jewelry = await _context.Jewelry
                 .Include(x => x.Materials)
-                .FirstOrDefaultAsync(m => m.JewelryId == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);
             if (jewelry == null)
             {
                 return NotFound();
@@ -165,7 +165,7 @@ namespace JmesJemsSite.Controllers
 
             var jewelry = await _context.Jewelry
                 .Include(x => x.Materials)
-                .FirstOrDefaultAsync(x => x.JewelryId == id);
+                .FirstOrDefaultAsync(x => x.ProductId == id);
             if (jewelry == null)
             {
                 return NotFound();
@@ -218,7 +218,7 @@ namespace JmesJemsSite.Controllers
 
             var jewelry = await _context.Jewelry
                 .Include(x => x.Materials)
-                .FirstOrDefaultAsync(m => m.JewelryId == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);
             if (jewelry == null)
             {
                 return NotFound();
@@ -234,7 +234,7 @@ namespace JmesJemsSite.Controllers
         {
             var jewelry = await _context.Jewelry
                 .Include(x => x.Materials)
-                .FirstOrDefaultAsync(m => m.JewelryId == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);
             _context.Jewelry.Remove(jewelry);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Jewelry));
@@ -242,7 +242,7 @@ namespace JmesJemsSite.Controllers
 
         private bool JewelryExists(int id)
         {
-            return _context.Jewelry.Any(e => e.JewelryId == id);
+            return _context.Jewelry.Any(e => e.ProductId == id);
         }
     }
 }
