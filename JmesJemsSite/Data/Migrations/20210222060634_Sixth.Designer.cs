@@ -4,14 +4,16 @@ using JmesJemsSite.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JmesJemsSite.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210222060634_Sixth")]
+    partial class Sixth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,9 +28,6 @@ namespace JmesJemsSite.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("ArtImage")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
@@ -37,6 +36,9 @@ namespace JmesJemsSite.Data.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<string>("ProductPicture")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -67,6 +69,9 @@ namespace JmesJemsSite.Data.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<string>("ProductPicture")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Size")
                         .HasColumnType("nvarchar(max)");
