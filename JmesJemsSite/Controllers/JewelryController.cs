@@ -13,11 +13,11 @@ using DynamicVML.Extensions;
 
 namespace JmesJemsSite.Controllers
 {
-    public class JewelriesController : Controller
+    public class JewelryController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public JewelriesController(ApplicationDbContext context)
+        public JewelryController(ApplicationDbContext context)
         {
             _context = context;
 
