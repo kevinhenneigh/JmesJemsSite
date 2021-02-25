@@ -13,11 +13,11 @@ using DynamicVML.Extensions;
 
 namespace JmesJemsSite.Controllers
 {
-    public class ArtworksController : Controller
+    public class ArtworkController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ArtworksController(ApplicationDbContext context)
+        public ArtworkController(ApplicationDbContext context)
         {
             _context = context;
 
@@ -109,7 +109,7 @@ namespace JmesJemsSite.Controllers
         }
 
         // GET: Artworks
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Artwork()
         {
             return View(await _context.Artwork.ToListAsync());
         }
@@ -150,7 +150,7 @@ namespace JmesJemsSite.Controllers
             {
                 _context.Add(ViewModelToModel(artwork));
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Artwork));
             }
             return View(artwork);
         }
@@ -203,7 +203,7 @@ namespace JmesJemsSite.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Artwork));
             }
             return View(artwork);
         }
@@ -237,7 +237,7 @@ namespace JmesJemsSite.Controllers
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             _context.Artwork.Remove(artwork);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Artwork));
         }
 
         private bool ArtworkExists(int id)
