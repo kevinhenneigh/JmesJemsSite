@@ -38,6 +38,16 @@
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="JewelryImage" class="control-label"></label>
+                    <div class="custom-file">
+                        <input asp-for="JewelryImage" class="custom-file-input">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                    <span asp-validation-for="JewelryImage" class="text-danger"></span>
+                </div>
+            </div>
             <div>
                 <h3>Materials</h3>
                 @Html.ListEditorFor(x => x.Materials, Url.Action("AddMaterial"), "Add new material")
