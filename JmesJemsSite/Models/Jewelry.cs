@@ -9,21 +9,13 @@ namespace JmesJemsSite.Models
 {   
     public class Jewelry : Products
     {
-        //public int JewelryId { get; set; }
-        //[Display(Name = "Name of jewelry")]
-        //public string Title { get; set; }
         [Display(Name = "Type of jewelry")]
         public string Type { get; set; }
+
         [Display(Name = "Jewelry color")]
         public string Color { get; set; }
+
         [Display(Name = "Size")]
         public string Size { get; set; }
-        //[Display(Name = "Price")]
-        //public double Price { get; set; }
-        //public string Image { get; set; }
-        //[Display(Name = "Material used")]
-        //public virtual List<Material> Materials { get; set; } = new List<Material>();
-
-
     }
 }

@@ -18,7 +18,5 @@ namespace JmesJemsSite.Models
 
         [Display(Name = "Width")]
         public double Width { get; set; }
-
-       // public virtual List<ArtMaterial> ArtMaterials { get; set; } = new List<ArtMaterial>();
     }
 }
