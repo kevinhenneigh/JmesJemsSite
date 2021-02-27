@@ -20,7 +20,6 @@ namespace JmesJemsSite.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment webHostEnvironment;
 
-        public ArtworkController(ApplicationDbContext context)
         public ArtworkController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
