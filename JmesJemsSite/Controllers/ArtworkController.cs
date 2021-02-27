@@ -15,40 +15,40 @@ using System.IO;
 
 namespace JmesJemsSite.Controllers
 {
-    public class JewelriesController : Controller
+    public class ArtworkController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment webHostEnvironment;
 
-        public JewelriesController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
+        public ArtworkController(ApplicationDbContext context)
+        public ArtworkController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             webHostEnvironment = hostEnvironment;
 
-            if(_context.Jewelry.Count() == 0) 
+            if (_context.Artwork.Count() == 0)
             {
-                _context.Jewelry.Add(new Jewelry
+                _context.Artwork.Add(new Artwork
                 {
-                    Title = "Cool",
-                    Type = "Necklace",
-                    Color = "Red",
-                    Size = "Large",
+                    Title = "Goo Guy",
+                    Type = "Abstract",
+                    Length = 12.5,
+                    Width = 12.5,
                     Price = 25.99,
-                    Materials = { 
-                        new Material { Title = "Yarn", Category = "Plant-Based" },
-                        new Material{ Title = "Beads", Category = "Plastic"} }
-                });
-                _context.Jewelry.Add(new Jewelry
-                {
-                    Title = "Bad",
-                    Type = "Bracelet",
-                    Color = "Blue",
-                    Size = "Small",
-                    Price = 15.99,
                     Materials = {
-                        new Material { Title = "Yarn", Category = "Plant-Based" },
-                        new Material{ Title = "Rhinestone", Category = "Plastic"},
-                        new Material{ Title = "Silver", Category = "Metal"} }
+                        new Material { Title = "Canvas", Category = "Plant-Based" },
+                        new Material{ Title = "Oil-based", Category = "Paint"} }
+                });
+                _context.Artwork.Add(new Artwork
+                {
+                    Title = "New new",
+                    Type = "Impressionism",
+                    Length = 24.00,
+                    Width = 15.00,
+                    Price = 50.99,
+                    Materials = {
+                        new Material { Title = "Canvas", Category = "Plant-Based" },
+                        new Material{ Title = "Pastels", Category = "Soft"}}
                 });
                 _context.SaveChanges();
             }
@@ -74,17 +74,18 @@ namespace JmesJemsSite.Controllers
             // gets submitted.
             return this.PartialView(newMaterialViewModel, parameters);
         }
-        private static JewelryViewModel ModelToViewModel(Jewelry model)
+        private ArtworkViewModel ModelToViewModel(Artwork model)
         {
-            var jewelryViewModel = new JewelryViewModel()
+            var artworkViewModel = new ArtworkViewModel()
             {
-                JewelryId = model.ProductId,
+
+                ArtId = model.ProductId,
                 Title = model.Title,
                 Type = model.Type,
-                Color = model.Color,
-                Size = model.Size,
+                Length = model.Length,
+                Width = model.Width,
                 Price = model.Price,
-                Materials = model.Materials.ToDynamicList(m => new MaterialViewModel()
+                ArtMaterials = model.Materials.ToDynamicList(m => new MaterialViewModel()
                 {
                     MaterialId = m.MaterialId,
                     Title = m.Title,
@@ -92,19 +93,21 @@ namespace JmesJemsSite.Controllers
                 })
             };
 
-            return jewelryViewModel;
+            return artworkViewModel;
         }
-        private static Jewelry ViewModelToModel(JewelryViewModel viewModel)
+        private Artwork ViewModelToModel(ArtworkViewModel viewModel)
         {
-            return new Jewelry()
+            string uniqueFileName = UploadedFile(viewModel);
+            return new Artwork()
             {
-                ProductId = viewModel.JewelryId,
+                ProductId = viewModel.ArtId,
                 Title = viewModel.Title,
                 Type = viewModel.Type,
-                Color = viewModel.Color,
-                Size = viewModel.Size,
+                Length = viewModel.Length,
+                Width = viewModel.Width,
                 Price = viewModel.Price,
-                Materials = viewModel.Materials.ToModel(m => new Material
+                ArtImage = uniqueFileName,
+                Materials = viewModel.ArtMaterials.ToModel(m => new Material
                 {
                     MaterialId = m.MaterialId,
                     Title = m.Title,
@@ -112,13 +115,14 @@ namespace JmesJemsSite.Controllers
                 }).ToList()
             };
         }
-        // GET: Jewelries
-        public async Task<IActionResult> Jewelry()
+
+        // GET: Artworks
+        public async Task<IActionResult> Artwork()
         {
-           return View(await _context.Jewelry.ToListAsync());
+            return View(await _context.Artwork.ToListAsync());
         }
 
-        // GET: Jewelries/Details/5
+        // GET: Artworks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -126,56 +130,58 @@ namespace JmesJemsSite.Controllers
                 return NotFound();
             }
 
-            var jewelry = await _context.Jewelry
+            var artwork = await _context.Artwork
                 .Include(x => x.Materials)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (jewelry == null)
+            if (artwork == null)
             {
                 return NotFound();
             }
 
-            return View(ModelToViewModel(jewelry));
+            return View(ModelToViewModel(artwork));
         }
 
-        // GET: Jewelries/Create
+        // GET: Artworks/Create
         public IActionResult Create()
         {
-            return View(new JewelryViewModel());
+            return View(new ArtworkViewModel());
         }
 
-        // POST: Jewelries/Create
+        // POST: Artworks/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(JewelryViewModel jewelry)
+        public async Task<IActionResult> Create(ArtworkViewModel artwork)
         {
             if (ModelState.IsValid)
             {
-                string uniqueFileName = UploadedFile(jewelry);
+                string uniqueFileName = UploadedFile(artwork);
 
-                Jewelry jewel = new Jewelry()
+                Artwork  art = new Artwork()
                 {
-                    Title = jewelry.Title,
-                    Type = jewelry.Type,
-                    Size = jewelry.Size,
-                    Price = jewelry.Price,
-                    JewelryImage = uniqueFileName,
-                    Materials = jewelry.Materials.ToModel(m => new Material
+                    Title = artwork.Title,
+                    Type = artwork.Type,
+                    Length = artwork.Length,
+                    Width = artwork.Width,
+                    Price = artwork.Price,
+                    ArtImage = uniqueFileName,
+                    Materials = artwork.ArtMaterials.ToModel(m => new Material
                     {
                         MaterialId = m.MaterialId,
                         Title = m.Title,
                         Category = m.Category
                     }).ToList()
                 };
-                _context.Add(jewel);
+
+                _context.Add(art);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Jewelry));
+                return RedirectToAction(nameof(Artwork));
             }
             return View();
         }
 
-        // GET: Jewelries/Edit/5
+        // GET: Artworks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -183,24 +189,24 @@ namespace JmesJemsSite.Controllers
                 return NotFound();
             }
 
-            var jewelry = await _context.Jewelry
+            var artwork = await _context.Artwork
                 .Include(x => x.Materials)
                 .FirstOrDefaultAsync(x => x.ProductId == id);
-            if (jewelry == null)
+            if (artwork == null)
             {
                 return NotFound();
             }
-            return View(ModelToViewModel(jewelry));
+            return View(ModelToViewModel(artwork));
         }
 
-        // POST: Jewelries/Edit/5
+        // POST: Artworks/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, JewelryViewModel jewelry)
+        public async Task<IActionResult> Edit(int id, ArtworkViewModel artwork)
         {
-            if (id != jewelry.JewelryId)
+            if (id != artwork.ArtId)
             {
                 return NotFound();
             }
@@ -209,12 +215,12 @@ namespace JmesJemsSite.Controllers
             {
                 try
                 {
-                    _context.Update(ViewModelToModel(jewelry));
+                    _context.Update(ViewModelToModel(artwork));
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JewelryExists(jewelry.JewelryId))
+                    if (!ArtworkExists(artwork.ArtId))
                     {
                         return NotFound();
                     }
@@ -223,12 +229,12 @@ namespace JmesJemsSite.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Jewelry));
+                return RedirectToAction(nameof(Artwork));
             }
-            return View(jewelry);
+            return View(artwork);
         }
 
-        // GET: Jewelries/Delete/5
+        // GET: Artworks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -236,50 +242,49 @@ namespace JmesJemsSite.Controllers
                 return NotFound();
             }
 
-            var jewelry = await _context.Jewelry
+            var artwork = await _context.Artwork
                 .Include(x => x.Materials)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (jewelry == null)
+            if (artwork == null)
             {
                 return NotFound();
             }
 
-            return View(ModelToViewModel(jewelry));
+            return View(ModelToViewModel(artwork));
         }
 
-        // POST: Jewelries/Delete/5
+        // POST: Artworks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var jewelry = await _context.Jewelry
+            var artwork = await _context.Artwork
                 .Include(x => x.Materials)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
-            _context.Jewelry.Remove(jewelry);
+            _context.Artwork.Remove(artwork);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Jewelry));
+            return RedirectToAction(nameof(Artwork));
         }
-        private string UploadedFile(JewelryViewModel jewelry)
+        private string UploadedFile(ArtworkViewModel artwork)
         {
             string uniqueFileName = null;
 
-            if (jewelry.JewelryImage != null)
+            if (artwork.ArtPicture != null)
             {
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + jewelry.JewelryImage.FileName;
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + artwork.ArtPicture.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    jewelry.JewelryImage.CopyTo(fileStream);
+                    artwork.ArtPicture.CopyTo(fileStream);
 
                 }
             }
             return uniqueFileName;
         }
-
-        private bool JewelryExists(int id)
+        private bool ArtworkExists(int id)
         {
-            return _context.Jewelry.Any(e => e.ProductId == id);
+            return _context.Artwork.Any(e => e.ProductId == id);
         }
     }
 }
