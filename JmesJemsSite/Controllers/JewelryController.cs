@@ -10,16 +10,20 @@ using JmesJemsSite.Models;
 using DynamicVML;
 using JmesJemsSite.ViewModels;
 using DynamicVML.Extensions;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace JmesJemsSite.Controllers
 {
     public class JewelryController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public JewelryController(ApplicationDbContext context)
+        public JewelryController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            webHostEnvironment = hostEnvironment;
 
             if(_context.Jewelry.Count() == 0) 
             {
@@ -148,11 +152,27 @@ namespace JmesJemsSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ViewModelToModel(jewelry));
+                string uniqueFileName = UploadedFile(jewelry);
+
+                Jewelry jewel = new Jewelry()
+                {
+                    Title = jewelry.Title,
+                    Type = jewelry.Type,
+                    Size = jewelry.Size,
+                    Price = jewelry.Price,
+                    JewelryImage = uniqueFileName,
+                    Materials = jewelry.Materials.ToModel(m => new Material
+                    {
+                        MaterialId = m.MaterialId,
+                        Title = m.Title,
+                        Category = m.Category
+                    }).ToList()
+                };
+                _context.Add(jewel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Jewelry));
             }
-            return View(jewelry);
+            return View();
         }
 
         // GET: Jewelries/Edit/5
@@ -238,6 +258,23 @@ namespace JmesJemsSite.Controllers
             _context.Jewelry.Remove(jewelry);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Jewelry));
+        }
+        private string UploadedFile(JewelryViewModel jewelry)
+        {
+            string uniqueFileName = null;
+
+            if (jewelry.JewelryImage != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + jewelry.JewelryImage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    jewelry.JewelryImage.CopyTo(fileStream);
+
+                }
+            }
+            return uniqueFileName;
         }
 
         private bool JewelryExists(int id)

@@ -18,5 +18,10 @@ namespace JmesJemsSite.Models
 
         [Display(Name = "Width")]
         public double Width { get; set; }
+
+        [Display(Name = "Artwork Image")]
+        public string ArtImage { get; set; }
+
+
     }
 }

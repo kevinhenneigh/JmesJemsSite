@@ -23,7 +23,10 @@ namespace JmesJemsSite.ViewModels
         public string Size { get; set; }
         [Display(Name = "Price")]
         public double Price { get; set; }
-        //public IFormFile JewelryImage { get; set; }
+        
+        [Display(Name ="Picture of jewelry")]
+        public IFormFile JewelryImage { get; set; }
+        
         [Display(Name = "Materials used")]
         public virtual DynamicList<MaterialViewModel> Materials { get; set; } = new DynamicList<MaterialViewModel>();
 

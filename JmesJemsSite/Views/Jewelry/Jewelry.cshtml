@@ -34,6 +34,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                <img src="~/images/@item.JewelryImage"
+                     class="rounded-circle"
+                     height="40" width="40"
+                     asp-append-version="true" />
+                @item.Title
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
