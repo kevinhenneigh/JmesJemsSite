@@ -21,6 +21,6 @@ namespace JmesJemsSite.Models
 
         [Display(Name = "Image of Jewelry")]
         public string JewelryImage { get; set; }
-r
+
     }
 }
