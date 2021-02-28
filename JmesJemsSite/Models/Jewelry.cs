@@ -9,7 +9,7 @@ namespace JmesJemsSite.Models
 {   
     public class Jewelry : Products
     {
-        
+
         [Display(Name = "Type of jewelry")]
         public string Type { get; set; }
 
@@ -21,7 +21,6 @@ namespace JmesJemsSite.Models
 
         [Display(Name = "Image of Jewelry")]
         public string JewelryImage { get; set; }
-
-
+r
     }
 }
