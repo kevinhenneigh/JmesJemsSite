@@ -10,10 +10,10 @@ namespace JmesJemsSite.Data
     public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+            : base(options){}
+
         public DbSet<Jewelry> Jewelry { get; set; }
+
         public DbSet<Artwork> Artwork { get; set; }
     }
 }
