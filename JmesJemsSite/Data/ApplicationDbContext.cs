@@ -15,5 +15,7 @@ namespace JmesJemsSite.Data
         public DbSet<Jewelry> Jewelry { get; set; }
 
         public DbSet<Artwork> Artwork { get; set; }
+
+        public DbSet<Products> Products { get; set; }
     }
 }

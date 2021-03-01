@@ -25,7 +25,7 @@ namespace JmesJemsSite.Controllers
         public async Task<IActionResult> Add(int id) 
         {
             // Get product from database
-            Products p = await (from products in _context.Artwork
+            Products p = await (from products in _context.Products
                                 where products.ProductId == id
                                 select products).SingleAsync();
 

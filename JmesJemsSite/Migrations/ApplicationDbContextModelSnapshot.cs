@@ -4,49 +4,20 @@ using JmesJemsSite.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace JmesJemsSite.Data.Migrations
+namespace JmesJemsSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210209061255_second")]
-    partial class second
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.2");
-
-            modelBuilder.Entity("JmesJemsSite.Models.Jewelry", b =>
-                {
-                    b.Property<int>("JewelryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Color")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Size")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("JewelryId");
-
-                    b.ToTable("Jewelry");
-                });
 
             modelBuilder.Entity("JmesJemsSite.Models.Material", b =>
                 {
@@ -58,7 +29,7 @@ namespace JmesJemsSite.Data.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("JewelryId")
+                    b.Property<int?>("ProductsProductId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -66,9 +37,36 @@ namespace JmesJemsSite.Data.Migrations
 
                     b.HasKey("MaterialId");
 
-                    b.HasIndex("JewelryId");
+                    b.HasIndex("ProductsProductId");
 
                     b.ToTable("Material");
+                });
+
+            modelBuilder.Entity("JmesJemsSite.Models.Products", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProductId");
+
+                    b.ToTable("Products");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Products");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -271,11 +269,44 @@ namespace JmesJemsSite.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("JmesJemsSite.Models.Artwork", b =>
+                {
+                    b.HasBaseType("JmesJemsSite.Models.Products");
+
+                    b.Property<double>("Length")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Artwork_Type");
+
+                    b.Property<double>("Width")
+                        .HasColumnType("float");
+
+                    b.HasDiscriminator().HasValue("Artwork");
+                });
+
+            modelBuilder.Entity("JmesJemsSite.Models.Jewelry", b =>
+                {
+                    b.HasBaseType("JmesJemsSite.Models.Products");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Size")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Jewelry");
+                });
+
             modelBuilder.Entity("JmesJemsSite.Models.Material", b =>
                 {
-                    b.HasOne("JmesJemsSite.Models.Jewelry", null)
+                    b.HasOne("JmesJemsSite.Models.Products", null)
                         .WithMany("Materials")
-                        .HasForeignKey("JewelryId");
+                        .HasForeignKey("ProductsProductId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -329,7 +360,7 @@ namespace JmesJemsSite.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("JmesJemsSite.Models.Jewelry", b =>
+            modelBuilder.Entity("JmesJemsSite.Models.Products", b =>
                 {
                     b.Navigation("Materials");
                 });
