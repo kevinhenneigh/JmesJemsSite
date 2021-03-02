@@ -4,16 +4,14 @@ using JmesJemsSite.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JmesJemsSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210301223949_Initial")]
-    partial class Initial
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -275,6 +273,9 @@ namespace JmesJemsSite.Migrations
                 {
                     b.HasBaseType("JmesJemsSite.Models.Products");
 
+                    b.Property<string>("ArtImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Length")
                         .HasColumnType("float");
 
@@ -293,6 +294,9 @@ namespace JmesJemsSite.Migrations
                     b.HasBaseType("JmesJemsSite.Models.Products");
 
                     b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JewelryImage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Size")

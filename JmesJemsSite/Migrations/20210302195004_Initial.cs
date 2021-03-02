@@ -59,9 +59,11 @@ namespace JmesJemsSite.Migrations
                     Artwork_Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Length = table.Column<double>(type: "float", nullable: true),
                     Width = table.Column<double>(type: "float", nullable: true),
+                    ArtImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Size = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Size = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JewelryImage = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
