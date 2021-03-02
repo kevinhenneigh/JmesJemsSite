@@ -10,16 +10,20 @@ using JmesJemsSite.Models;
 using DynamicVML;
 using JmesJemsSite.ViewModels;
 using DynamicVML.Extensions;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace JmesJemsSite.Controllers
 {
     public class ArtworkController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public ArtworkController(ApplicationDbContext context)
+        public ArtworkController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            webHostEnvironment = hostEnvironment;
 
             if (_context.Artwork.Count() == 0)
             {
@@ -58,7 +62,7 @@ namespace JmesJemsSite.Controllers
             // are computed automatically from the view by the library.
 
             // Now here you can create another view model for your model
-            var newArtMaterialViewModel = new ArtMaterialViewModel()
+            var newMaterialViewModel = new MaterialViewModel()
             {
                 Title = "New Material"
             };
@@ -67,12 +71,13 @@ namespace JmesJemsSite.Controllers
             // This is an extension method that creates a partial view with the needed HTML 
             // prefix for the fields in your form so the form will post correctly when it 
             // gets submitted.
-            return this.PartialView(newArtMaterialViewModel, parameters);
+            return this.PartialView(newMaterialViewModel, parameters);
         }
-        private static ArtworkViewModel ModelToViewModel(Artwork model)
+        private ArtworkViewModel ModelToViewModel(Artwork model)
         {
             var artworkViewModel = new ArtworkViewModel()
             {
+
                 ArtId = model.ProductId,
                 Title = model.Title,
                 Type = model.Type,
@@ -89,8 +94,9 @@ namespace JmesJemsSite.Controllers
 
             return artworkViewModel;
         }
-        private static Artwork ViewModelToModel(ArtworkViewModel viewModel)
+        private Artwork ViewModelToModel(ArtworkViewModel viewModel)
         {
+            string uniqueFileName = UploadedFile(viewModel);
             return new Artwork()
             {
                 ProductId = viewModel.ArtId,
@@ -99,6 +105,7 @@ namespace JmesJemsSite.Controllers
                 Length = viewModel.Length,
                 Width = viewModel.Width,
                 Price = viewModel.Price,
+                ArtImage = uniqueFileName,
                 Materials = viewModel.ArtMaterials.ToModel(m => new Material
                 {
                     MaterialId = m.MaterialId,
@@ -148,11 +155,29 @@ namespace JmesJemsSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ViewModelToModel(artwork));
+                string uniqueFileName = UploadedFile(artwork);
+
+                Artwork  art = new Artwork()
+                {
+                    Title = artwork.Title,
+                    Type = artwork.Type,
+                    Length = artwork.Length,
+                    Width = artwork.Width,
+                    Price = artwork.Price,
+                    ArtImage = uniqueFileName,
+                    Materials = artwork.ArtMaterials.ToModel(m => new Material
+                    {
+                        MaterialId = m.MaterialId,
+                        Title = m.Title,
+                        Category = m.Category
+                    }).ToList()
+                };
+
+                _context.Add(art);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Artwork));
             }
-            return View(artwork);
+            return View();
         }
 
         // GET: Artworks/Edit/5
@@ -239,7 +264,23 @@ namespace JmesJemsSite.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Artwork));
         }
+        private string UploadedFile(ArtworkViewModel artwork)
+        {
+            string uniqueFileName = null;
 
+            if (artwork.ArtPicture != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + artwork.ArtPicture.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    artwork.ArtPicture.CopyTo(fileStream);
+
+                }
+            }
+            return uniqueFileName;
+        }
         private bool ArtworkExists(int id)
         {
             return _context.Artwork.Any(e => e.ProductId == id);

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace JmesJemsSite.ViewModels
 {
@@ -22,6 +23,10 @@ namespace JmesJemsSite.ViewModels
         public double Width { get; set; }
         [Display(Name = "Price")]
         public double Price { get; set; }
+
+        [Display(Name = "Picture of artwork")]
+        public IFormFile ArtPicture { get; set; }
+
         [Display(Name = "Materials used")]
         public virtual DynamicList<MaterialViewModel> ArtMaterials { get; set; } = new DynamicList<MaterialViewModel>();
     }
