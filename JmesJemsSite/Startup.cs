@@ -86,6 +86,8 @@ namespace JmesJemsSite
             IdentityHelper.CreateRoles(serviceProvider.ServiceProvider
                 , IdentityHelper.Administrator
                 , IdentityHelper.Customer).Wait();
+
+            IdentityHelper.CreateDefaultAdministrator(serviceProvider.ServiceProvider).Wait();
         }
     }
 }

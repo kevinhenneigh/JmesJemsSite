@@ -1,9 +1,9 @@
 ﻿@using Microsoft.EntityFrameworkCore;
 
-@inject IHttpContextAccessor sessionData 
+ 
 @inject JmesJemsSite.Data.ApplicationDbContext db
 
-@{ 
+@*@{ 
     int? userId = sessionData.HttpContext.Session.GetInt32("UserId");
     string username = null;
     if (userId.HasValue)
@@ -19,7 +19,7 @@
             sessionData.HttpContext.Session.SetString("Username", username);
         }
     }
-}
+}*@
 
 <!DOCTYPE html>
 <html lang="en">
