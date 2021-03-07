@@ -1,9 +1,32 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.EntityFrameworkCore;
+
+ 
+@inject JmesJemsSite.Data.ApplicationDbContext db
+
+@*@{ 
+    int? userId = sessionData.HttpContext.Session.GetInt32("UserId");
+    string username = null;
+    if (userId.HasValue)
+    {
+        string userNameFromSession =
+            sessionData.HttpContext.Session.GetString("Username");
+
+        if (userNameFromSession == null)
+        {
+            username = await (from u in db.UserAccounts
+                              where u.UserId == userId
+                              select u.Username).SingleOrDefaultAsync();
+            sessionData.HttpContext.Session.SetString("Username", username);
+        }
+    }
+}*@
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - JmesJemsSite</title>
+    <title>@ViewData["Title"] - JmesJems</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>

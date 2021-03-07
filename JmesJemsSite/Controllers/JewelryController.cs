@@ -112,13 +112,13 @@ namespace JmesJemsSite.Controllers
                 }).ToList()
             };
         }
-        // GET: Jewelries
+        // GET: Jewelry
         public async Task<IActionResult> Jewelry()
         {
            return View(await _context.Jewelry.ToListAsync());
         }
 
-        // GET: Jewelries/Details/5
+        // GET: Jewelry/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -137,13 +137,13 @@ namespace JmesJemsSite.Controllers
             return View(ModelToViewModel(jewelry));
         }
 
-        // GET: Jewelries/Create
+        // GET: Jewelry/Create
         public IActionResult Create()
         {
             return View(new JewelryViewModel());
         }
 
-        // POST: Jewelries/Create
+        // POST: Jewelry/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -175,7 +175,7 @@ namespace JmesJemsSite.Controllers
             return View();
         }
 
-        // GET: Jewelries/Edit/5
+        // GET: Jewelry/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -193,7 +193,7 @@ namespace JmesJemsSite.Controllers
             return View(ModelToViewModel(jewelry));
         }
 
-        // POST: Jewelries/Edit/5
+        // POST: Jewelry/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -228,7 +228,7 @@ namespace JmesJemsSite.Controllers
             return View(jewelry);
         }
 
-        // GET: Jewelries/Delete/5
+        // GET: Jewelry/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -247,7 +247,7 @@ namespace JmesJemsSite.Controllers
             return View(ModelToViewModel(jewelry));
         }
 
-        // POST: Jewelries/Delete/5
+        // POST: Jewelry/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

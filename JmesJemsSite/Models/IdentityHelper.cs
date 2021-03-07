@@ -46,5 +46,30 @@ namespace JmesJemsSite.Models
                 }
             }
         }
+
+        internal static async Task CreateDefaultAdministrator(IServiceProvider serviceProvider)
+        {
+            const string email = "kevinhenneigh@hotmail.com";
+            const string username = "administrator";
+            const string password = "administrator";
+
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+            // Check if any users in database
+            if (userManager.Users.Count() == 0)
+            {
+                IdentityUser administrator = new IdentityUser()
+                {
+                    Email = email,
+                    UserName = username
+                };
+
+                // Create Administrator
+                await userManager.CreateAsync(administrator, password);
+
+                // Add to administrator role
+                await userManager.AddToRoleAsync(administrator, Administrator);
+            }
+        }
     }
 }
