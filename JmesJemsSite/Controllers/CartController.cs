@@ -51,7 +51,7 @@ namespace JmesJemsSite.Controllers
             // Add products list to cart cookie
             string data = JsonConvert.SerializeObject(cartProducts);
 
-
+            // Holds items in cart for 1 year for existing customers
             CookieOptions options = new CookieOptions()
             {
                 Expires = DateTime.Now.AddYears(1),
@@ -67,8 +67,11 @@ namespace JmesJemsSite.Controllers
 
         public IActionResult Summary()
         {
-            // Display all products in shopping cart
-            return View();
+            string cookieData = _httpContext.HttpContext.Request.Cookies["CartCookie"];
+
+            List<Products> cartProducts = JsonConvert.DeserializeObject<List<Products>>(cookieData);
+
+            return View(cartProducts);
         }
     }
 }
