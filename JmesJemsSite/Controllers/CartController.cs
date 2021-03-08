@@ -31,8 +31,27 @@ namespace JmesJemsSite.Controllers
         {
             Products p = await ProductDb.GetProductAsync( _context, id);
 
-            // Add product to cart cookie
-            string data = JsonConvert.SerializeObject(p);
+            const string CartCookie = "CartCookie";
+
+            // Get existing cart items
+            string existingItems = _httpContext.HttpContext.Request.Cookies[CartCookie];
+
+            
+            List<Products> cartProducts = new List<Products>();
+
+            // Are there items in the customers cart already
+            if (existingItems != null)
+            {
+                cartProducts = JsonConvert.DeserializeObject<List<Products>>(existingItems);
+            }
+
+            // Add current product to existing cart
+            cartProducts.Add(p);
+
+            // Add products list to cart cookie
+            string data = JsonConvert.SerializeObject(cartProducts);
+
+
             CookieOptions options = new CookieOptions()
             {
                 Expires = DateTime.Now.AddYears(1),
@@ -40,10 +59,9 @@ namespace JmesJemsSite.Controllers
                 IsEssential = true
             };
 
-            _httpContext.HttpContext.Response.Cookies.Append("CartCookie", data, options);
+            _httpContext.HttpContext.Response.Cookies.Append(CartCookie, data, options);
 
             // redirect to previous page
-
             return RedirectToAction("Index", "Summary");
         }
 
