@@ -54,7 +54,8 @@ namespace JmesJemsSite.Models
 
         public static int GetTotalCartProducts(IHttpContextAccessor http)
         {
-            throw new NotImplementedException();
+            List<Products> cartProducts = GetCartProducts(http);
+            return cartProducts.Count;
         }
     }
 }
