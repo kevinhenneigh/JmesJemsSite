@@ -1,69 +1,79 @@
 ﻿@model IEnumerable<JmesJemsSite.Models.Artwork>
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor http
 
-@{
-    ViewData["Title"] = "Artwork";
-}
+    @{
+        ViewData["Title"] = "Artwork";
+    }
 
-<h1>Artwork</h1>
+    <h1>Artwork</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Length)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Width)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <img src="~/images/@item.ArtImage"
-                     class="rounded-circle"
-                     height="40" width="40"
-                     asp-append-version="true" />
-                @item.Title
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Length)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Width)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-                <a class="btn btn-primary" asp-route-id="@item.ProductId" asp-controller="Cart"
-                   asp-action="Add">Add to Cart</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Length)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Width)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ 
+                // MyWebsite.com/Artwork/
+                string prevUrl = http.HttpContext.Request.Path;
+            }
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="~/images/@item.ArtImage"
+                             class="rounded-circle"
+                             height="40" width="40"
+                             asp-append-version="true" />
+                        @item.Title
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Length)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Width)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                        <a class="btn btn-primary" asp-route-id="@item.ProductId" asp-controller="Cart"
+                           asp-route-prevUrl="@prevUrl"
+                           asp-action="Add">Add to Cart</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

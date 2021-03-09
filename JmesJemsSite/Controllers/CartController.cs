@@ -27,30 +27,25 @@ namespace JmesJemsSite.Controllers
         /// </summary>
         /// <param name="id"> Id of the product to add </param>
         /// <returns></returns>
-        public async Task<IActionResult> Add(int id)
+        public async Task<IActionResult> Add(int id, string prevUrl)
         {
             Products p = await ProductDb.GetProductAsync( _context, id);
 
-            // Add product to cart cookie
-            string data = JsonConvert.SerializeObject(p);
-            CookieOptions options = new CookieOptions()
-            {
-                Expires = DateTime.Now.AddYears(1),
-                Secure = true,
-                IsEssential = true
-            };
+            CookieHelper.AddProductToCart(_httpContext, p);
 
-            _httpContext.HttpContext.Response.Cookies.Append("CartCookie", data, options);
+            TempData["Message"] = p.Title + " added to cart";
 
             // redirect to previous page
-
-            return RedirectToAction("Index", "Summary");
+            return Redirect(prevUrl);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>A view of all products in the cart</returns>
         public IActionResult Summary()
         {
-            // Display all products in shopping cart
-            return View();
+           return View(CookieHelper.GetCartProducts(_httpContext));
         }
     }
 }

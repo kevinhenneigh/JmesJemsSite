@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -32,6 +33,6 @@ namespace JmesJemsSite.Models
         /// <summary>
         /// A list of materials used to make the product
         /// </summary>
-        public virtual List<Material> Materials { get; set; } = new List<Material>();
+        public virtual List<Material> Materials { get; set; }
     }
 }
