@@ -27,14 +27,16 @@ namespace JmesJemsSite.Controllers
         /// </summary>
         /// <param name="id"> Id of the product to add </param>
         /// <returns></returns>
-        public async Task<IActionResult> Add(int id)
+        public async Task<IActionResult> Add(int id, string prevUrl)
         {
             Products p = await ProductDb.GetProductAsync( _context, id);
 
             CookieHelper.AddProductToCart(_httpContext, p);
 
+            TempData["Message"] = p.Title + " added to cart";
+
             // redirect to previous page
-            return RedirectToAction("Index", "Products");
+            return Redirect(prevUrl);
         }
 
         /// <summary>

@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<JmesJemsSite.Models.Jewelry>
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor http
 
 @{
     ViewData["Title"] = "Jewelry";
@@ -31,38 +33,43 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <img src="~/images/@item.JewelryImage"
-                     class="rounded-circle"
-                     height="40" width="40"
-                     asp-append-version="true" />
-                @item.Title
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Size)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-                <a class="btn btn-primary" asp-route-id="@item.ProductId" asp-controller="Cart"
-                   asp-action="Add">Add to Cart</a>
-            </td>
-        </tr>
-}
+        @{
+            string prevUrl = http.HttpContext.Request.Path;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/images/@item.JewelryImage"
+                         class="rounded-circle"
+                         height="40" width="40"
+                         asp-append-version="true" />
+                    @item.Title
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Size)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                    <a class="btn btn-primary" asp-route-id="@item.ProductId" asp-controller="Cart"
+                       asp-route-prevUrl="@prevUrl"
+                       asp-action="Add">Add to Cart</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
