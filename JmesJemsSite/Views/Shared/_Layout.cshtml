@@ -29,32 +29,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - JmesJems</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <!--<link rel="stylesheet" href="~/css/site.css" />-->
+    <link rel="stylesheet" href="~/css/Home.css" />
+    <script src="~/js/Home.js"></script>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">JmesJemsSite</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        <!-- Options -->
+        <div id="nav-colors">
+            Navbar
+            <button id="pink" class="btn"></button>
+            <button id="red" class="btn"></button>
+            <button id="purple" class="btn"></button>
+            <button id="blue" class="btn"></button>
+            <button id="green" class="btn"></button>
+            <button id="yellow" class="btn"></button>
+            <button id="orange" class="btn"></button>
+        </div>
+        <div id="font-colors">
+            Font
+            <button id="white" class="btn"></button>
+            <button id="black" class="btn"></button>
+        </div>
+        <div id="edges">
+            Edges
+            <button id="rounded" class="btn">Rounded</button>
+            <button id="square" class="btn">Square</button>
+        </div>
+        <nav class="navbar">
+            <div class="container-fluid">
+                <!-- Nav Header -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse-1" aria-expanded="false">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        <span class="fa fa-home"></span>
+                        <span class="link"> Home</span>
+                    </a>
+                    
+                </div>
+                <!-- Nav Collapse -->
+                <div class="navbar-collapse collapse" id="collapse-1">
+                    <!-- Nav Left -->
+                    <ul class="nav navbar-nav">
+                        <!-- Products -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="fa fa-tags"></span><span class="link"> Products</span> <span class="fa fa-caret-down"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-controller="Jewelry" asp-action="Jewelry"><span class="fa fa-tag"></span> Jewelry</a></li>
+                                <li><a asp-controller="Artwork" asp-action="Artwork"><span class="fa fa-tag"></span> ArtWork</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Jewelry" asp-action="Jewelry">Jewelry</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Artwork" asp-action="Artwork">Artwork</a>
-                        </li>
-                        <li class="nav-item">
+                        <!-- About -->
+                        <li><a href="#"><span class="fa fa-info-circle"></span><span class="link"> About</span></a></li>
+                        <!-- Contact -->
+                        <li><a href="#"><span class="fa fa-phone"></span><span class="link"> Contact</span></a></li>
+                    </ul>
+                    <!-- Nav Right -->
+                    <form class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn"><span class="fa fa-search"></span></button>
+                    </form>
+                        <a class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Cart" asp-action="Summary">
                                 @{
                                     int total = @CookieHelper.GetTotalCartProducts(http);
@@ -76,8 +119,7 @@
 
 
                             </a>
-                        </li>
-                    </ul>
+                        </a>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -96,7 +138,8 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!--<script src="~/js/site.js" asp-append-version="true"></script>-->
+    <script src="~/js/Home.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
