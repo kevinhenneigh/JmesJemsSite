@@ -25,33 +25,6 @@ namespace JmesJemsSite.Controllers
         {
             _context = context;
             webHostEnvironment = hostEnvironment;
-
-            if (_context.Artwork.Count() == 0)
-            {
-                _context.Artwork.Add(new Artwork
-                {
-                    Title = "Goo Guy",
-                    Type = "Abstract",
-                    Length = 12.5,
-                    Width = 12.5,
-                    Price = 25.99,
-                    Materials = new List<Material>() {
-                        new Material { Title = "Canvas", Category = "Plant-Based" },
-                        new Material{ Title = "Oil-based", Category = "Paint"} }
-                });
-                _context.Artwork.Add(new Artwork
-                {
-                    Title = "New new",
-                    Type = "Impressionism",
-                    Length = 24.00,
-                    Width = 15.00,
-                    Price = 50.99,
-                    Materials = new List<Material>() {
-                        new Material { Title = "Canvas", Category = "Plant-Based" },
-                        new Material{ Title = "Pastels", Category = "Soft"}}
-                });
-                _context.SaveChanges();
-            }
         }
         public IActionResult AddMaterial(AddNewDynamicItem parameters)
         {
@@ -85,7 +58,7 @@ namespace JmesJemsSite.Controllers
                 Length = model.Length,
                 Width = model.Width,
                 Price = model.Price,
-                ArtMaterials = model.Materials.ToDynamicList(m => new MaterialViewModel()
+                Materials = model.Materials.ToDynamicList(m => new MaterialViewModel()
                 {
                     MaterialId = m.MaterialId,
                     Title = m.Title,
@@ -107,7 +80,7 @@ namespace JmesJemsSite.Controllers
                 Width = viewModel.Width,
                 Price = viewModel.Price,
                 ArtImage = uniqueFileName,
-                Materials = viewModel.ArtMaterials.ToModel(m => new Material
+                Materials = viewModel.Materials.ToModel(m => new Material
                 {
                     MaterialId = m.MaterialId,
                     Title = m.Title,
@@ -166,7 +139,7 @@ namespace JmesJemsSite.Controllers
                     Width = artwork.Width,
                     Price = artwork.Price,
                     ArtImage = uniqueFileName,
-                    Materials = artwork.ArtMaterials.ToModel(m => new Material
+                    Materials = artwork.Materials.ToModel(m => new Material
                     {
                         MaterialId = m.MaterialId,
                         Title = m.Title,

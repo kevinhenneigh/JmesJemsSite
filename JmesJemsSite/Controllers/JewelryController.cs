@@ -24,34 +24,6 @@ namespace JmesJemsSite.Controllers
         {
             _context = context;
             webHostEnvironment = hostEnvironment;
-
-            if(_context.Jewelry.Count() == 0) 
-            {
-                _context.Jewelry.Add(new Jewelry
-                {
-                    Title = "Cool",
-                    Type = "Necklace",
-                    Color = "Red",
-                    Size = "Large",
-                    Price = 25.99,
-                    Materials = new List<Material>() { 
-                        new Material { Title = "Yarn", Category = "Plant-Based" },
-                        new Material{ Title = "Beads", Category = "Plastic"} }
-                });
-                _context.Jewelry.Add(new Jewelry
-                {
-                    Title = "Bad",
-                    Type = "Bracelet",
-                    Color = "Blue",
-                    Size = "Small",
-                    Price = 15.99,
-                    Materials = new List<Material>() {
-                        new Material { Title = "Yarn", Category = "Plant-Based" },
-                        new Material{ Title = "Rhinestone", Category = "Plastic"},
-                        new Material{ Title = "Silver", Category = "Metal"} }
-                });
-                _context.SaveChanges();
-            }
         }
         public IActionResult AddMaterial(AddNewDynamicItem parameters)
         {
