@@ -1,20 +1,18 @@
 ﻿@model JmesJemsSite.ViewModels.MaterialViewModel
+   
+<dt class="col-sm-10">
+    @Html.DisplayNameFor(model => model.Title)
+</dt>
 
-<div>
-    <h4>Material</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Category)
-        </dd>
-    </dl>
-</div>
+<dt class="col-sm-10">
+    @Html.DisplayFor(model => model.Title)
+</dt>
+
+<dt class="col-sm-10">
+    @Html.DisplayNameFor(model => model.Category)
+</dt>
+
+<dt class="col-sm-10">
+    @Html.DisplayFor(model => model.Category)
+</dt>
+

@@ -27,7 +27,6 @@ namespace JmesJemsSite.ViewModels
         [Display(Name ="Picture of jewelry")]
         public IFormFile JewelryImage { get; set; }
         
-        [Display(Name = "Materials used")]
         public virtual DynamicList<MaterialViewModel> Materials { get; set; } = new DynamicList<MaterialViewModel>();
 
 
