@@ -35,7 +35,7 @@ namespace JmesJemsSite.Controllers
                     Length = 12.5,
                     Width = 12.5,
                     Price = 25.99,
-                    Materials = {
+                    Materials = new List<Material>() {
                         new Material { Title = "Canvas", Category = "Plant-Based" },
                         new Material{ Title = "Oil-based", Category = "Paint"} }
                 });
@@ -46,7 +46,7 @@ namespace JmesJemsSite.Controllers
                     Length = 24.00,
                     Width = 15.00,
                     Price = 50.99,
-                    Materials = {
+                    Materials = new List<Material>() {
                         new Material { Title = "Canvas", Category = "Plant-Based" },
                         new Material{ Title = "Pastels", Category = "Soft"}}
                 });

@@ -34,7 +34,7 @@ namespace JmesJemsSite.Controllers
                     Color = "Red",
                     Size = "Large",
                     Price = 25.99,
-                    Materials = { 
+                    Materials = new List<Material>() { 
                         new Material { Title = "Yarn", Category = "Plant-Based" },
                         new Material{ Title = "Beads", Category = "Plastic"} }
                 });
@@ -45,7 +45,7 @@ namespace JmesJemsSite.Controllers
                     Color = "Blue",
                     Size = "Small",
                     Price = 15.99,
-                    Materials = {
+                    Materials = new List<Material>() {
                         new Material { Title = "Yarn", Category = "Plant-Based" },
                         new Material{ Title = "Rhinestone", Category = "Plastic"},
                         new Material{ Title = "Silver", Category = "Metal"} }
