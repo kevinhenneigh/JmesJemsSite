@@ -15,6 +15,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.JewelryImage)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
@@ -44,7 +47,7 @@
                          class="rounded-circle"
                          height="40" width="40"
                          asp-append-version="true" />
-                    @item.Title
+                 
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
