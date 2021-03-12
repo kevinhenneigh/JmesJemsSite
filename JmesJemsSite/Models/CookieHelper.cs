@@ -52,6 +52,12 @@ namespace JmesJemsSite.Models
             http.HttpContext.Response.Cookies.Append(CartCookie, data, options);
         } 
 
+        public static void RemoveProductFromCart(IHttpContextAccessor http, Products p)
+        {
+            List<Products> cartProducts = GetCartProducts(http);
+            cartProducts.Remove(p);
+        }
+
         public static int GetTotalCartProducts(IHttpContextAccessor http)
         {
             List<Products> cartProducts = GetCartProducts(http);

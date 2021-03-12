@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<JmesJemsSite.Models.Products>
-
+@using System.Linq
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor http
 @{
     ViewData["Title"] = "Summary";
 }
@@ -7,47 +9,60 @@
 <h1>Summary</h1>
 @if (Model.Count() == 0)
 {
-<h2>Your Shopping Cart Is Empty</h2>;
+    <h2>Your Shopping Cart Is Empty</h2>;
 }
+
+// Add total for products in cart
 else
 {
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    double Sum = 0;
+    foreach (Products p in Model)
+    {
+        Sum += p.Price;
+    }
+    <h2> Your Total is @Sum.ToString("C")</h2>
+
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @{
+                // MyWebsite.com/Artwork/
+                string prevUrl = http.HttpContext.Request.Path;
+            }
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" asp-route-id="@item.ProductId" asp-controller="Cart"
+                           asp-route-prevUrl="@prevUrl"
+                           asp-action="Remove">Remove From Cart</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 
 
