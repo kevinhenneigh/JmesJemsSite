@@ -55,7 +55,22 @@ namespace JmesJemsSite.Models
         public static void RemoveProductFromCart(IHttpContextAccessor http, Products p)
         {
             List<Products> cartProducts = GetCartProducts(http);
-            cartProducts.Remove(p);
+            Products product = cartProducts.Where(prod => prod.ProductId == p.ProductId).First();
+            
+            cartProducts.Remove(product);
+
+            string data = JsonConvert.SerializeObject(cartProducts);
+
+            // Holds items in cart for 1 year for existing customers
+            CookieOptions options = new CookieOptions()
+            {
+                Expires = DateTime.Now.AddYears(1),
+                Secure = true,
+                IsEssential = true
+            };
+
+
+            http.HttpContext.Response.Cookies.Append(CartCookie, data, options);
         }
 
         public static int GetTotalCartProducts(IHttpContextAccessor http)
