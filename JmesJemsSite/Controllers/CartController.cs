@@ -32,8 +32,6 @@ namespace JmesJemsSite.Controllers
 
             CookieHelper.AddProductToCart(_httpContext, p);
 
-            TempData["Message"] = p.Title + " added to cart";
-
             // redirect to previous page
             return Redirect(prevUrl);
         }
