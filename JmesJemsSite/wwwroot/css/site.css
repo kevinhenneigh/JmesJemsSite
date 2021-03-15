@@ -202,7 +202,6 @@ body {
     background: linear-gradient(to right, #e43a15, #e65245);
 }
 
-
 #white {
     background: white;
 }
@@ -210,6 +209,7 @@ body {
 #black {
     background: black;
 }
+
 
 #rounded, #square {
     color: white;
@@ -337,7 +337,7 @@ a {
     padding: 0 15px 0 15px;
 }
 
-// Small Devices
+/* Small Devices*/
 @media(max-width: 769px) {
 }
 
