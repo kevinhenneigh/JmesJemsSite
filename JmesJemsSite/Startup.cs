@@ -67,10 +67,13 @@ namespace JmesJemsSite
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseSession();
+            
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // Must be between UseRouting() and UseEndpoints()
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
