@@ -165,11 +165,27 @@ namespace JmesJemsSite.Controllers
             var artwork = await _context.Artwork
                 .Include(x => x.Materials)
                 .FirstOrDefaultAsync(x => x.ProductId == id);
+            var artworkViewModel = new ArtworkViewModel()
+            {
+                ArtId = artwork.ProductId,
+                Title = artwork.Title,
+                Type = artwork.Type,
+                Length = artwork.Length,
+                Width = artwork.Width,
+                Price = artwork.Price,
+                ExistingImage = artwork.ArtImage,
+                Materials = artwork.Materials.ToDynamicList(m => new MaterialViewModel()
+                {
+                    MaterialId = m.MaterialId,
+                    Title = m.Title,
+                    Category = m.Category
+                })
+            };
             if (artwork == null)
             {
                 return NotFound();
             }
-            return View(ModelToViewModel(artwork));
+            return View(artworkViewModel);
         }
 
         // POST: Artworks/Edit/5
@@ -183,25 +199,39 @@ namespace JmesJemsSite.Controllers
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
-                try
+                string uniqueFileName = UploadedFile(artwork);
+                var artModel = new Artwork();
+
+                artModel.ProductId = artwork.ArtId;
+                artModel.Title = artwork.Title;
+                artModel.Type = artwork.Type;
+                artModel.Length = artwork.Length;
+                artModel.Width = artwork.Width;
+                artModel.Price = artwork.Price;
+                artModel.ArtImage = uniqueFileName;
+                artModel.Materials = artwork.Materials.ToModel(m => new Material
                 {
-                    _context.Update(ViewModelToModel(artwork));
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
+                    MaterialId = m.MaterialId,
+                    Title = m.Title,
+                    Category = m.Category
+                }).ToList();
+                if (artwork.ProductImage == null)
                 {
-                    if (!ArtworkExists(artwork.ArtId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    artModel.ArtImage = uniqueFileName;
                 }
+                else if (artwork.ProductImage != null)
+                {
+                    if (artwork.ExistingImage != null)
+                    {
+                        string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", artwork.ExistingImage);
+                        System.IO.File.Delete(filePath);
+                    }
+                    artModel.ArtImage = UploadedFile(artwork);
+                }
+                _context.Update(artModel);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Artwork));
             }
             return View(artwork);
@@ -242,14 +272,14 @@ namespace JmesJemsSite.Controllers
         {
             string uniqueFileName = null;
 
-            if (artwork.ArtPicture != null)
+            if (artwork.ProductImage != null)
             {
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + artwork.ArtPicture.FileName;
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + artwork.ProductImage.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    artwork.ArtPicture.CopyTo(fileStream);
+                    artwork.ProductImage.CopyTo(fileStream);
 
                 }
             }
