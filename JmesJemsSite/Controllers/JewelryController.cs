@@ -48,6 +48,7 @@ namespace JmesJemsSite.Controllers
         }
         private static JewelryViewModel ModelToViewModel(Jewelry model)
         {
+            
             var jewelryViewModel = new JewelryViewModel()
             {
                 JewelryId = model.ProductId,
@@ -154,15 +155,30 @@ namespace JmesJemsSite.Controllers
             {
                 return NotFound();
             }
-
             var jewelry = await _context.Jewelry
                 .Include(x => x.Materials)
                 .FirstOrDefaultAsync(x => x.ProductId == id);
+            var jewelryViewModel = new JewelryViewModel()
+            {
+                JewelryId = jewelry.ProductId,
+                Title = jewelry.Title,
+                Type = jewelry.Type,
+                Color = jewelry.Color,
+                Size = jewelry.Size,
+                Price = jewelry.Price,
+                ExistingImage = jewelry.JewelryImage,
+                Materials = jewelry.Materials.ToDynamicList(m => new MaterialViewModel()
+                {
+                    MaterialId = m.MaterialId,
+                    Title = m.Title,
+                    Category = m.Category
+                })
+            };
             if (jewelry == null)
             {
                 return NotFound();
             }
-            return View(ModelToViewModel(jewelry));
+            return View(jewelryViewModel);
         }
 
         // POST: Jewelry/Edit/5
@@ -179,22 +195,38 @@ namespace JmesJemsSite.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                string uniqueFileName = UploadedFile(jewelry);
+                var jewelryModel = new Jewelry();
+
+                jewelryModel.ProductId = jewelry.JewelryId;
+                jewelryModel.Title = jewelry.Title;
+                jewelryModel.Type = jewelry.Type;
+                jewelryModel.Color = jewelry.Color;
+                jewelryModel.Size = jewelry.Size;
+                jewelryModel.Price = jewelry.Price;
+                jewelryModel.JewelryImage = uniqueFileName;
+                jewelryModel.Materials = jewelry.Materials.ToModel(m => new Material
                 {
-                    _context.Update(ViewModelToModel(jewelry));
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
+                    MaterialId = m.MaterialId,
+                    Title = m.Title,
+                    Category = m.Category
+                }).ToList();
+                if (jewelry.ProductImage == null)
                 {
-                    if (!JewelryExists(jewelry.JewelryId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    jewelryModel.JewelryImage = uniqueFileName;
                 }
+                else if (jewelry.ProductImage != null)
+                {
+                    if (jewelry.ExistingImage != null)
+                    {
+                        string filePath = Path.Combine(webHostEnvironment.WebRootPath, "images", jewelry.ExistingImage);
+                        System.IO.File.Delete(filePath);
+                    }
+
+                    jewelryModel.JewelryImage = UploadedFile(jewelry);
+                }
+                _context.Update(jewelryModel);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Jewelry));
             }
             return View(jewelry);
@@ -235,14 +267,14 @@ namespace JmesJemsSite.Controllers
         {
             string uniqueFileName = null;
 
-            if (jewelry.JewelryImage != null)
+            if (jewelry.ProductImage != null)
             {
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + jewelry.JewelryImage.FileName;
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + jewelry.ProductImage.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    jewelry.JewelryImage.CopyTo(fileStream);
+                    jewelry.ProductImage.CopyTo(fileStream);
 
                 }
             }

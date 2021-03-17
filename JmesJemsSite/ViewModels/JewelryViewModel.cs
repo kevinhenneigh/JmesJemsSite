@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 namespace JmesJemsSite.ViewModels
 {
     
-    public class JewelryViewModel
+    public class JewelryViewModel :  EditImageViewModel
     {
         public int JewelryId { get; set; }
         [Display(Name = "Name of jewelry")]
@@ -23,9 +23,6 @@ namespace JmesJemsSite.ViewModels
         public string Size { get; set; }
         [Display(Name = "Price")]
         public double Price { get; set; }
-        
-        [Display(Name ="Picture of jewelry")]
-        public IFormFile JewelryImage { get; set; }
         
         public virtual DynamicList<MaterialViewModel> Materials { get; set; } = new DynamicList<MaterialViewModel>();
 

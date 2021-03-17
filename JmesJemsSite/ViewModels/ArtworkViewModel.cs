@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace JmesJemsSite.ViewModels
 {
-    public class ArtworkViewModel
+    public class ArtworkViewModel : EditImageViewModel
     {
         public int ArtId { get; set; }
         [Display(Name = "Name of artwork")]
@@ -23,9 +23,6 @@ namespace JmesJemsSite.ViewModels
         public double Width { get; set; }
         [Display(Name = "Price")]
         public double Price { get; set; }
-
-        [Display(Name = "Picture of artwork")]
-        public IFormFile ArtPicture { get; set; }
 
         public virtual DynamicList<MaterialViewModel> Materials { get; set; } = new DynamicList<MaterialViewModel>();
     }
