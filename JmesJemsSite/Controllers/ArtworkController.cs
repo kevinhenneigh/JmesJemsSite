@@ -13,9 +13,11 @@ using DynamicVML.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JmesJemsSite.Controllers
 {
+    
     public class ArtworkController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -26,6 +28,7 @@ namespace JmesJemsSite.Controllers
             _context = context;
             webHostEnvironment = hostEnvironment;
         }
+
         public IActionResult AddMaterial(AddNewDynamicItem parameters)
         {
             // This is the GET action that will be called whenever the user clicks 
