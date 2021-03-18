@@ -29,7 +29,6 @@ namespace JmesJemsSite.Controllers
             webHostEnvironment = hostEnvironment;
         }
 
-        [Authorize(Roles = "Administrator")]
         public IActionResult AddMaterial(AddNewDynamicItem parameters)
         {
             // This is the GET action that will be called whenever the user clicks 
@@ -119,7 +118,6 @@ namespace JmesJemsSite.Controllers
         }
 
         // GET: Artworks/Create
-        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View(new ArtworkViewModel());
@@ -128,7 +126,6 @@ namespace JmesJemsSite.Controllers
         // POST: Artworks/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ArtworkViewModel artwork)
@@ -161,7 +158,6 @@ namespace JmesJemsSite.Controllers
         }
 
         // GET: Artworks/Edit/5
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -182,7 +178,6 @@ namespace JmesJemsSite.Controllers
         // POST: Artworks/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ArtworkViewModel artwork)
@@ -216,7 +211,6 @@ namespace JmesJemsSite.Controllers
         }
 
         // GET: Artworks/Delete/5
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -236,7 +230,6 @@ namespace JmesJemsSite.Controllers
         }
 
         // POST: Artworks/Delete/5
-        [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
