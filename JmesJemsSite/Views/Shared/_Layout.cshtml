@@ -1,4 +1,4 @@
-@using Microsoft.EntityFrameworkCore;
+﻿@using Microsoft.EntityFrameworkCore;
 @using Microsoft.AspNetCore.Http;
 
 @inject IHttpContextAccessor http 
@@ -34,7 +34,6 @@
         <script src="~/lib/font-awesome/css/all.css"></script>
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
-    <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 
 <body>
@@ -136,8 +135,6 @@
     <environment include="Development">
         <script src="~/lib/font-awesome/js/all.js"></script>
     </environment>
-    <!--<script src="~/js/site.js" asp-append-version="true"></script>-->
-    <script src="~/js/site.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
