@@ -27,7 +27,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - JmesJems</title>
+    <title>@ViewData["Title"] - JmesJems - </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
   
     <environment include="Development">
@@ -71,7 +71,6 @@
                     </button>
                     <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                         <span class="fa fa-home"></span>
-                        <span class="link"> Home</span>
                     </a>
                 </div>
                 <div>
@@ -92,7 +91,6 @@
                             </svg>
                             @total;
                          }
-
                     </a>
                 </div>
                 <div>
@@ -112,18 +110,16 @@
                                 <li><a asp-controller="Artwork" asp-action="Artwork"><span class="fa fa-tag"></span> ArtWork</a></li>
                             </ul>
                         </li>
-                        <!-- About -->
-                        <li><a href="#"><span class="fa fa-info-circle"></span><span class="link"> About</span></a></li>
                         <!-- Contact -->
                         <li><a href="#"><span class="fa fa-phone"></span><span class="link"> Contact</span></a></li>
                     </ul>
                     <!-- Nav Right -->
-                    <form class="navbar-form navbar-right">
+                    @*<form class="navbar-form navbar-right">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Search">
                         </div>
                         <button type="submit" class="btn"><span class="fa fa-search"></span></button>
-                    </form>
+                    </form>*@
                 </div>
             </div>
         </nav>
@@ -137,7 +133,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - JmesJems - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - JmesJems  
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
