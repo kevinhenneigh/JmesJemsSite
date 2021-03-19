@@ -102,12 +102,28 @@ namespace JmesJemsSite.Controllers
             var jewelry = await _context.Jewelry
                 .Include(x => x.Materials)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
+            var jewelryViewModel = new JewelryViewModel()
+            {
+                JewelryId = jewelry.ProductId,
+                Title = jewelry.Title,
+                Type = jewelry.Type,
+                Color = jewelry.Color,
+                Size = jewelry.Size,
+                Price = jewelry.Price,
+                ExistingImage = jewelry.JewelryImage,
+                Materials = jewelry.Materials.ToDynamicList(m => new MaterialViewModel()
+                {
+                    MaterialId = m.MaterialId,
+                    Title = m.Title,
+                    Category = m.Category
+                })
+            };
             if (jewelry == null)
             {
                 return NotFound();
             }
 
-            return View(ModelToViewModel(jewelry));
+            return View(jewelryViewModel);
         }
 
         // GET: Jewelry/Create
