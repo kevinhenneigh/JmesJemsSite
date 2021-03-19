@@ -50,8 +50,11 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.JewelryId">Edit</a> |
-    <a asp-action="Jewelry">Back to List</a>
+    @if (User.IsInRole("Administrator"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.JewelryId">Edit</a>
+    }
+        <a asp-action="Jewelry">Back to List</a>
 </div>
 
 @section Scripts{
