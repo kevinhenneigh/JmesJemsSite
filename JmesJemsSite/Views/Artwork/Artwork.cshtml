@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JmesJemsSite.Models.Artwork>
+@model IEnumerable<JmesJemsSite.Models.Artwork>
 @using Microsoft.AspNetCore.Http;
 @inject IHttpContextAccessor http
 
@@ -51,8 +51,9 @@
                     <td>
                         <img src="~/images/@item.ArtImage"
                              class="rounded-circle"
-                             height="40" width="40"
-                             asp-append-version="true" />
+         
+                             asp-append-version="true" />           
+
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Title)
