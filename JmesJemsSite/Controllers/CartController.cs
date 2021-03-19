@@ -26,26 +26,37 @@ namespace JmesJemsSite.Controllers
         /// Adds an item to the shopping cart
         /// </summary>
         /// <param name="id"> Id of the product to add </param>
-        /// <returns></returns>
         public async Task<IActionResult> Add(int id, string prevUrl)
         {
             Products p = await ProductDb.GetProductAsync( _context, id);
 
             CookieHelper.AddProductToCart(_httpContext, p);
 
-            TempData["Message"] = p.Title + " added to cart";
+            // redirect to previous page
+            return Redirect(prevUrl);
+        }
+
+        /// <summary>
+        /// Removes an item from the shopping cart
+        /// </summary>
+        /// <param name="id"> Id of the product to remove </param>
+        public async Task<IActionResult> Remove(int id, string prevUrl)
+        {
+            Products p = await ProductDb.GetProductAsync(_context, id);
+
+            CookieHelper.RemoveProductFromCart(_httpContext, p);
 
             // redirect to previous page
             return Redirect(prevUrl);
         }
 
         /// <summary>
-        /// 
+        /// Summary of the products in the cart
         /// </summary>
         /// <returns>A view of all products in the cart</returns>
         public IActionResult Summary()
         {
-           return View(CookieHelper.GetCartProducts(_httpContext));
+            return View(CookieHelper.GetCartProducts(_httpContext));
         }
     }
 }

@@ -34,6 +34,10 @@ namespace JmesJemsSite.Models
             return cartProducts;
         }
 
+        /// <summary>
+        /// Adds an item to the shopping cart when button is clicked
+        /// </summary>
+        /// <param name="p">The item added to the shopping cart</param>
         public static void AddProductToCart(IHttpContextAccessor http, Products p)
         {
             List<Products> cartProducts = GetCartProducts(http);
@@ -52,6 +56,36 @@ namespace JmesJemsSite.Models
             http.HttpContext.Response.Cookies.Append(CartCookie, data, options);
         } 
 
+        /// <summary>
+        /// Removes a single item from the cart on button click
+        /// </summary>
+        /// <param name="p">The product to remove from the shopping cart</param>
+        public static void RemoveProductFromCart(IHttpContextAccessor http, Products p)
+        {
+            List<Products> cartProducts = GetCartProducts(http);
+            Products product = cartProducts.Where(prod => prod.ProductId == p.ProductId).First();
+            
+            cartProducts.Remove(product);
+
+            string data = JsonConvert.SerializeObject(cartProducts);
+
+            // Holds items in cart for 1 year for existing customers
+            CookieOptions options = new CookieOptions()
+            {
+                Expires = DateTime.Now.AddYears(1),
+                Secure = true,
+                IsEssential = true
+            };
+
+            http.HttpContext.Response.Cookies.Append(CartCookie, data, options);
+        }
+
+        /// <summary>
+        /// Gets the item total in the shopping cart
+        /// Updates next to the shopping cart icon every 
+        /// time a product is added or removed from the cart
+        /// </summary>
+        /// <returns>The number of items in the shopping cart</returns>
         public static int GetTotalCartProducts(IHttpContextAccessor http)
         {
             List<Products> cartProducts = GetCartProducts(http);

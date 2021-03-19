@@ -10,8 +10,8 @@
 <h4>Jewelry</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+    < class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="JewelryId" />
             <div class="form-group">
@@ -39,10 +39,22 @@
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            @Html.ListEditorFor(x => x.Materials, Url.Action("AddMaterial"), "Add new material")
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="ProductImage" class="control-label"></label>
+                    <div class="custom-file">
+                        <input asp-for="ProductImage" class="custom-file-input" />
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                    <span asp-validation-for="ProductImage" class="text-danger"></span>
+                    <img src="~/images/@Model.ExistingImage" class="img-thumbnail" height="80" width="80" asp-append-version="true" />
+                </div>
+                <input type="hidden" asp-for="ExistingImage">
             </div>
+                @Html.ListEditorFor(x => x.Materials, Url.Action("AddMaterial"), "Add new material")
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
         </form>
     </div>
 </div>
@@ -55,6 +67,13 @@
 
     <!-- Load JS code for the Dynamic ViewModel Lists above -->
     <script src="~/lib/dynamic-viewmodel-lists/dvml.js"></script>
+    <script>
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

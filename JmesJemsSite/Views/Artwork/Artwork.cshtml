@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JmesJemsSite.Models.Artwork>
+@model IEnumerable<JmesJemsSite.Models.Artwork>
 @using Microsoft.AspNetCore.Http;
 @inject IHttpContextAccessor http
 
@@ -10,7 +10,10 @@
 
 
     <p>
+        @if (User.IsInRole("Administrator"))
+        {
         <a asp-action="Create">Create New</a>
+        }
     </p>
     <table class="table">
         <thead>
@@ -48,8 +51,9 @@
                     <td>
                         <img src="~/images/@item.ArtImage"
                              class="rounded-circle"
-                             height="40" width="40"
+         
                              asp-append-version="true" />           
+
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Title)
@@ -67,12 +71,19 @@
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-                        <a class="btn btn-primary" asp-route-id="@item.ProductId" asp-controller="Cart"
-                           asp-route-prevUrl="@prevUrl"
-                           asp-action="Add">Add to Cart</a>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                            <a asp-action="Details" asp-route-id="@item.ProductId">Details</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.ProductId">Details</a>
+                            <a class="btn btn-primary" asp-route-id="@item.ProductId" asp-controller="Cart"
+                                asp-route-prevUrl="@prevUrl"
+                                asp-action="Add">Add to Cart</a>
+                        }
                     </td>
                 </tr>
             }

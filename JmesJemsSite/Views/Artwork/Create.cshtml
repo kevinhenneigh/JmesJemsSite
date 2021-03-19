@@ -40,17 +40,17 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="ArtPicture" class="control-label"></label>
+                    <label asp-for="ProductImage" class="control-label"></label>
                     <div class="custom-file">
-                        <input asp-for="ArtPicture" class="custom-file-input">
+                        <input asp-for="ProductImage" class="custom-file-input">
                         <label class="custom-file-label" for="customFile">Choose file</label>
                     </div>
-                    <span asp-validation-for="ArtPicture" class="text-danger"></span>
+                    <span asp-validation-for="ProductImage" class="text-danger"></span>
                 </div>
             </div>
             <div>
                 <h3>Art Materials</h3>
-                @Html.ListEditorFor(x => x.ArtMaterials, Url.Action("AddMaterial"), "Add new material")
+                @Html.ListEditorFor(x => x.Materials, Url.Action("AddMaterial"), "Add new material")
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -60,7 +60,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Artwork">Back to List</a>
 </div>
 
 @section Scripts {
@@ -71,7 +71,6 @@
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
     </script>
-
     <!-- Load JS code for the Dynamic ViewModel Lists above -->
     <script src="~/lib/dynamic-viewmodel-lists/dvml.js"></script>
 

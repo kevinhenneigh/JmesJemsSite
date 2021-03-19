@@ -1,5 +1,6 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
+
 
 // Write your JavaScript code.
 // Open close dropdown on click
@@ -12,21 +13,26 @@ $("li.dropdown").click(function () {
         $(this).find(".dropdown-menu").slideDown("fast");
         $(this).toggleClass("open");
     }
+
 });
 
 // Close dropdown on mouseleave
 $("li.dropdown").mouseleave(function () {
+
     $(this).find(".dropdown-menu").slideUp("fast");
     $(this).removeClass("open");
+
 });
 
 // Navbar toggle
 $(".navbar-toggle").click(function () {
     $(".navbar-collapse").toggleClass("collapse").slideToggle("fast");
+
 });
 
 // Navbar colors
 $("#nav-colors > .btn").click(function () {
+
     if ($(this).is("#pink")) {
         $(".navbar").css("background", "linear-gradient(to right, #ff5858, #f857a6)");
         $(".dropdown-menu").css("background", "#ff5858");
@@ -59,6 +65,7 @@ $("#nav-colors > .btn").click(function () {
 
 // Font colors
 $("#font-colors > .btn").click(function () {
+
     if ($(this).is("#white")) {
         $(".navbar .fa, .link, a").css("color", "white");
         $(".icon-bar").css("background", "white");
@@ -71,6 +78,7 @@ $("#font-colors > .btn").click(function () {
 
 // edges
 $("#edges > .btn").click(function () {
+
     if ($(this).is("#rounded")) {
         $(".navbar, .form-control").css("border-radius", "8px");
         if ($(window).width() > 768) {
@@ -89,4 +97,4 @@ $("#edges > .btn").click(function () {
     }
 })
 
-Resources
+
