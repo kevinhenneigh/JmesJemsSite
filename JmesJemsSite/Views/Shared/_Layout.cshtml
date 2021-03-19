@@ -4,7 +4,12 @@
 @inject IHttpContextAccessor http 
 @inject JmesJemsSite.Data.ApplicationDbContext db
 
+
+
+
 @*@{ 
+    This method is not currently functioning
+
     int? userId = sessionData.HttpContext.Session.GetInt32("UserId");
     string username = null;
     if (userId.HasValue)
@@ -64,7 +69,7 @@
                 <!-- Nav Header -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse-1" aria-expanded="false">
-                        <span class="icon-bar"></span>
+                        <span class="icon-bar">Menu</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
