@@ -108,13 +108,29 @@ namespace JmesJemsSite.Controllers
 
             var artwork = await _context.Artwork
                 .Include(x => x.Materials)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+                .FirstOrDefaultAsync(x => x.ProductId == id);
+            var artworkViewModel = new ArtworkViewModel()
+            {
+                ArtId = artwork.ProductId,
+                Title = artwork.Title,
+                Type = artwork.Type,
+                Length = artwork.Length,
+                Width = artwork.Width,
+                Price = artwork.Price,
+                ExistingImage = artwork.ArtImage,
+                Materials = artwork.Materials.ToDynamicList(m => new MaterialViewModel()
+                {
+                    MaterialId = m.MaterialId,
+                    Title = m.Title,
+                    Category = m.Category
+                })
+            };
             if (artwork == null)
             {
                 return NotFound();
             }
 
-            return View(ModelToViewModel(artwork));
+            return View(artworkViewModel);
         }
 
         // GET: Artworks/Create
@@ -250,13 +266,29 @@ namespace JmesJemsSite.Controllers
 
             var artwork = await _context.Artwork
                 .Include(x => x.Materials)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+                .FirstOrDefaultAsync(x => x.ProductId == id);
+            var artworkViewModel = new ArtworkViewModel()
+            {
+                ArtId = artwork.ProductId,
+                Title = artwork.Title,
+                Type = artwork.Type,
+                Length = artwork.Length,
+                Width = artwork.Width,
+                Price = artwork.Price,
+                ExistingImage = artwork.ArtImage,
+                Materials = artwork.Materials.ToDynamicList(m => new MaterialViewModel()
+                {
+                    MaterialId = m.MaterialId,
+                    Title = m.Title,
+                    Category = m.Category
+                })
+            };
             if (artwork == null)
             {
                 return NotFound();
             }
 
-            return View(ModelToViewModel(artwork));
+            return View(artworkViewModel);
         }
 
         // POST: Artworks/Delete/5
@@ -268,6 +300,7 @@ namespace JmesJemsSite.Controllers
                 .Include(x => x.Materials)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             _context.Artwork.Remove(artwork);
+            var curImage = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", artwork.ArtImage);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Artwork));
         }
