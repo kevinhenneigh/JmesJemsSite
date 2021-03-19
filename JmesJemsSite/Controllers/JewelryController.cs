@@ -243,12 +243,30 @@ namespace JmesJemsSite.Controllers
             var jewelry = await _context.Jewelry
                 .Include(x => x.Materials)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
+
+       
+            var jewelryViewModel = new JewelryViewModel()
+            {
+                JewelryId = jewelry.ProductId,
+                Title = jewelry.Title,
+                Type = jewelry.Type,
+                Color = jewelry.Color,
+                Size = jewelry.Size,
+                Price = jewelry.Price,
+                ExistingImage = jewelry.JewelryImage,
+                Materials = jewelry.Materials.ToDynamicList(m => new MaterialViewModel()
+                {
+                    MaterialId = m.MaterialId,
+                    Title = m.Title,
+                    Category = m.Category
+                })
+            };
             if (jewelry == null)
             {
                 return NotFound();
             }
 
-            return View(ModelToViewModel(jewelry));
+            return View(jewelryViewModel);
         }
 
         // POST: Jewelry/Delete/5
@@ -259,8 +277,16 @@ namespace JmesJemsSite.Controllers
             var jewelry = await _context.Jewelry
                 .Include(x => x.Materials)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
+            var curImage = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", jewelry.JewelryImage);
             _context.Jewelry.Remove(jewelry);
-            await _context.SaveChangesAsync();
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                if (System.IO.File.Exists(curImage))
+                {
+                    System.IO.File.Delete(curImage);
+                }
+            }
             return RedirectToAction(nameof(Jewelry));
         }
         private string UploadedFile(JewelryViewModel jewelry)
